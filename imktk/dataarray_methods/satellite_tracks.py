@@ -18,7 +18,7 @@ Usage:
 import xarray as xr
 
 
-def main(dataarray, name=None, method="linear", **dims):
+def main(dataarray, name=None, method="linear", interpolate_na=None, **dims):
     """Interpolation routine to satellite tracks
 
     This script helps calculating interpolations along satellite tracks.
@@ -29,6 +29,9 @@ def main(dataarray, name=None, method="linear", **dims):
     name: Name of satellite
     method: Interpolation method to be used
     dims: Dictionary of coord and list of values
+    interpolate_na: Options for interpolation of nan values
+
+    Inerpolation options are described here: https://docs.xarray.dev/en/stable/generated/xarray.DataArray.interpolate_na.html
 
     Returns
     =======
@@ -47,8 +50,12 @@ def main(dataarray, name=None, method="linear", **dims):
     lengths = [len(x) for x in dims.values()]
     assert all([x == lengths[0] for x in lengths]), "Not all dims are of same length"
 
-    if not name:
+    if name is None:
         name = "satellite"
+    if interpolate_na is not None:
+        assert isinstance(interpolate_na, dict), "Interpolate options are not given as a dict"
+        dataarray = dataarray.interpolate_na(**interpolate_na)
+
     criteria = {k: xr.DataArray(v, dims=name) for k, v in dims.items()}
 
     return dataarray.interp(**criteria, method=method)
