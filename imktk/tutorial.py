@@ -22,8 +22,8 @@ import pandas as pd
 def _xarray_satellite_tracks():
     """Generate toy data for testing satellite tracks."""
     return xr.DataArray(
-        np.sin(0.3 * np.arange(20).reshape(5, 4)),
-        [("lat", np.arange(5)), ("lon", [0.1, 0.2, 0.3, 0.4])],
+        np.sin(0.3 * np.arange(100).reshape(5, 4, 5)),
+        [("lat", np.arange(5)), ("lon", [0.1, 0.2, 0.3, 0.4]), ("lev", np.arange(5))],
     )
 
 
