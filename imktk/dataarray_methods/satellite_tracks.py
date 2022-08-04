@@ -38,7 +38,7 @@ def main(dataarray, name=None, method="linear", **dims):
     assert isinstance(dataarray, xr.DataArray), "Input is not an xr.DataArray"
 
     # check if dims dictionary fits to the dataarray, based on ...
-    msg = f"Some dim keys of {dims.keys()} not found in {dataarray.coords}"
+    msg = f"Some dim keys of {dims.keys()} not found in {list(dataarray.coords)}"
     # ... all keys are valid coordinate dimensions
     assert all([x in dataarray.coords for x in dims.keys()]), msg
     # ... satellite tracks are lists
